@@ -8,6 +8,7 @@ const UserService = require('../services/user');
 const {
     GraphQLObjectType,
     GraphQLSchema,
+    GraphQLNonNull,
     GraphQLString,
     GraphQLInt,
     GraphQLList
@@ -22,8 +23,8 @@ const CompanyType = new GraphQLObjectType({
         description: { type: GraphQLString },
         users: {
             type: new GraphQLList(UserType),
-            resolve(parentValue, args) {
-                return CompanyService.getUsers(parentValue.id)
+            resolve({ id }) {
+                return CompanyService.getUsers(id)
                     .then(response => response.data);
             }
         }
@@ -38,8 +39,8 @@ const UserType = new GraphQLObjectType({
         age: { type: GraphQLInt },
         company: {
             type: CompanyType,
-            resolve(parentValue, args) {
-                return CompanyService.getById(args.id)
+            resolve({ companyId }) {
+                return CompanyService.getById(companyId)
                     .then(response => response.data);
             }
         }
@@ -56,8 +57,8 @@ const RootQuery = new GraphQLObjectType({
                     type: GraphQLString
                 }
             },
-            resolve(parentValue, args) {
-                return UserService
+            resolve(parentValue, { id }) {
+                return UserService.getById(id)
                     .then(response => response.data);
             }
         },
@@ -68,8 +69,49 @@ const RootQuery = new GraphQLObjectType({
                     type: GraphQLString
                 }
             },
+            resolve(parentValue, { id }) {
+                return CompanyService.getById(id)
+                    .then(response => response.data);
+            }
+        }
+    }
+});
+
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        addUser: {
+            type: UserType,
+            args: {
+                firstName: { type: new GraphQLNonNull(GraphQLString) },
+                age: { type: new GraphQLNonNull(GraphQLInt) },
+                companyId: { type: GraphQLString }
+            },
+            resolve(parentValue, { firstName, age }) {
+                return UserService.add(firstName, age)
+                    .then(response => response.data);
+            }
+        },
+        deleteUser: {
+            type: UserType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parentValue, { id }) {
+                return UserService.delete(id)
+                    .then(response => response.data);
+            }
+        },
+        editUser: {
+            type: UserType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLString) },
+                firstName: { type: GraphQLString },
+                age: { type: GraphQLInt },
+                companyId: { type: GraphQLString }
+            },
             resolve(parentValue, args) {
-                return CompanyService.getById(args.id)
+                return UserService.update(args.id, args)
                     .then(response => response.data);
             }
         }
@@ -77,5 +119,6 @@ const RootQuery = new GraphQLObjectType({
 });
 
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 });
