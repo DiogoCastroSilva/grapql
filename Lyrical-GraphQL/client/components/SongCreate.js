@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // Libraries
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import { Link } from 'react-router';
 
 
 
@@ -33,12 +34,13 @@ class SongCreate extends Component {
             variables: {
                 title: this.state.title
             }
-        });
+        })
     }
 
     render() {
         return (
             <div>
+                <Link to="/">Back</Link>
                 <h3>Create a New Song</h3>
                 <form onSubmit={this.onSubmit}>
                     <label>Song Title:</label>
