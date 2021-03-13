@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 
 // Queries
 import fetchSong from '../queries/fetchSong';
+import LyricCreate from './LyricCreate';
 
 
 class SongDetail extends Component {
@@ -19,6 +20,7 @@ class SongDetail extends Component {
             <div>
                 <Link to="/">Back</Link>
                 <h3>{song.title}</h3>
+                <LyricCreate songId={this.props.params.id} />
             </div>
         );
     }
