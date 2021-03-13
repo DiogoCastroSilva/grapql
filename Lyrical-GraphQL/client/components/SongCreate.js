@@ -5,6 +5,8 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { Link } from 'react-router';
 
+// Queries
+import fetchSongs from '../queries/fetchSongs';
 
 
 const MUTATION = gql`
@@ -33,7 +35,10 @@ class SongCreate extends Component {
         this.props.mutate({
             variables: {
                 title: this.state.title
-            }
+            },
+            refetchQueries: [{
+                query: fetchSongs
+            }]
         })
     }
 
