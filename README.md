@@ -6,6 +6,7 @@ Tutorial projects to learn how to use GraphQL in Back-End and Front-End.
 
 - <a href="/users">Users Project</a> - Create a simple Express server using GraphQL
 - <a href="/Lyrical-GraphQL">Song project</a> - Connect client with GraphQL server using Apollo Client
+- <a href="/auth-graphql-starter">Authentication project</a> - Using authentication with GraphQL
 ## Scripts
 
 To run the projects is needed to install all dependencies then starting the project. For that there's the following scripts:
