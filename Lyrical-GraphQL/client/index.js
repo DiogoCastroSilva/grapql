@@ -16,7 +16,10 @@ import SongCreate from './components/SongCreate';
 import SongDetail from './components/SongDetail';
 
 
-const client = new ApolloClient({});
+const client = new ApolloClient({
+  // Keeping track of every id to identify changes in GraphQL
+  dataIdFromObject: o => o.id
+});
 
 const Root = () => {
   return (

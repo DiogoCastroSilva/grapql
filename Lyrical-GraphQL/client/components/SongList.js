@@ -69,7 +69,7 @@ class SongList extends Component {
 const Mutation = gql`
     mutation deleteSong($id: ID) {
         deleteSong(id:$id) {
-        id
+            id
         }
     }
 `;
