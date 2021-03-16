@@ -25,7 +25,7 @@ class LoginForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidUpdate(nextProps) {
+    componentWillUpdate(nextProps) {
         if (!this.props.data.user && nextProps.data.user) {
             hashHistory.push('/dashboard');
         }

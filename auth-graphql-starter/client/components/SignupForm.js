@@ -25,7 +25,7 @@ class SignupForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentDidUpdate(nextProps) {
+    componentWillUpdate(nextProps) {
         if (nextProps.data.user && !this.props.data.user) {
             hashHistory.push('/dashboard');
         }
