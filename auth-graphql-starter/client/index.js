@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom';
 // Libraries
 import ApolloClient from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
+import { Router, hashHistory, Route } from 'react-router';
+
+// Components
+import App from './components/App';
 
 
 const client = new ApolloClient({
@@ -13,9 +17,9 @@ const client = new ApolloClient({
 const Root = () => {
   return (
     <ApolloProvider client={client}>
-      <div>
-        Auth Starter
-      </div>
+      <Router history={hashHistory}>
+        <Route path="/" component={App} />
+      </Router>
     </ApolloProvider>
   );
 };
