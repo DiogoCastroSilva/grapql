@@ -6,6 +6,9 @@ import { graphql } from 'react-apollo';
 // Mutations
 import mutation from '../mutations/signup';
 
+// Queries
+import query from '../queries/currentUser';
+
 // Components
 import AuthForm from './AuthForm';
 
@@ -13,6 +16,10 @@ import AuthForm from './AuthForm';
 class SignupForm extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            errors: []
+        };
 
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -22,7 +29,13 @@ class SignupForm extends Component {
             variables: {
                 email,
                 password
-            }
+            },
+            refetchQueries: [
+                { query }
+            ]
+        }).catch(res => {
+            const errors = res.graphQLErrors.map(error => error.message);
+            this.setState({ errors });
         });
     }
 
@@ -32,7 +45,7 @@ class SignupForm extends Component {
                 <h3>Sign Up</h3>
                 <AuthForm
                     onSubmit={this.onSubmit}
-                    errors={[]}
+                    errors={this.state.errors}
                 />
             </div>
         );
